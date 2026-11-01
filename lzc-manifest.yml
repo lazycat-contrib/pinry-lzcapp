@@ -1,0 +1,37 @@
+application:
+  subdomain: pinry
+  multi_instance: false
+  upstreams:
+    - location: /package-licenses/
+      backend: file:///lzcapp/pkg/content/licenses/
+    - location: /
+      backend: http://pinry:80/
+
+services:
+  pinry:
+    # upstream: getpinry/pinry:2.1.13
+    image: docker.1ms.run/getpinry/pinry:2.1.13
+    environment:
+      - DJANGO_SETTINGS_MODULE=pinry.settings.docker
+      - TZ=Asia/Shanghai
+    binds:
+      - /lzcapp/var/data:/data
+
+usage: |
+  Pinry 是自建的图片收藏板：把喜欢的图存进来，打标签、分板归档，还能整页抓取网页里的图。
+
+  使用方法：
+  1. 打开应用，点注册创建第一个账号（本应用自己的账号体系，没有预置账号）。
+  2. 新建一个板（board），把图片拖进去，或粘贴图片链接保存。
+  3. 给图打标签，之后按标签或板筛选。
+
+  数据与安全：
+  - 数据库（SQLite）、上传的图片和缩略图都保存在 /lzcapp/var/data，卸载应用会一并删除，请定期备份。
+  - 应用的 SECRET_KEY 在首次启动时由镜像自己随机生成并写入 /data/local_settings.py，不是固定值。
+  - 本包不预置任何账号或默认口令，第一个账号由你注册。
+  - 应用经懒猫入口鉴权访问。
+
+  说明：
+  - 单容器部署，镜像启动时自动建表，无需手动初始化。
+  - 上游默认允许新用户自助注册，且未登录也能浏览图片；如需限制，请在应用设置里关闭。
+  - 未做真机验证：注册登录、上传图片、建板、标签筛选以及重启后持久化均未在设备上实测。

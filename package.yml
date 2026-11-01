@@ -1,0 +1,18 @@
+package: community.lazycat.app.pinry
+name: Pinry
+version: 0.0.0
+description: "Self-hosted image board for saving, tagging and sharing pictures you like."
+min_os_version: "1.5.0"
+homepage: https://github.com/pinry/pinry
+author: pinry
+license: BSD-2-Clause
+permissions:
+  required:
+    - net.internet
+locales:
+  zh:
+    name: Pinry
+    description: "自建图片收藏板：把喜欢的图存进来，打标签、分板归档，还能整页抓取网页里的图。"
+  en:
+    name: Pinry
+    description: "Self-hosted image board for saving, tagging and sharing pictures you like."
